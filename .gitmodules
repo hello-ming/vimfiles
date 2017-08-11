@@ -76,3 +76,6 @@
 [submodule "bundle/vim-visual-increment"]
 	path = bundle/vim-visual-increment
 	url = https://github.com/triglav/vim-visual-increment.git
+[submodule "bundle/vim-colorschemes"]
+	path = bundle/vim-colorschemes
+	url = https://github.com/flazz/vim-colorschemes.git

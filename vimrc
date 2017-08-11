@@ -1,4 +1,5 @@
 set nocompatible
+set modeline
 
 "界面改为英文---------------------------------------
 let $LANG = 'en'  "set message language
@@ -8,6 +9,14 @@ set fileencodings=ucs-bom,utf-8,cp936
 set relativenumber
 set ignorecase
 set smartcase
+
+set list
+"set listchars=eol:⏎,tab:>-
+"set listchars=tab:>-
+set listchars=tab:▸\ 
+hi NonText ctermfg=16 guifg=#4a4a59
+hi SpecialKey ctermfg=16 guifg=#4a4a59
+
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 inoremap jj <ESC>
 
@@ -126,7 +135,6 @@ endif
 set hidden
 
 "显示所有buffer，按索引切换
-"map <F5> :ls<CR>:e #
 map <F1> :ls<CR>:e #
 
 "缩进完后仍保持可视模式
@@ -242,15 +250,7 @@ autocmd FileType css vnoremap <buffer> <leader>ff :call RangeCSSBeautify()<cr>
 
 autocmd FileType yaml :set filetype=ansible
 
-" jshint2  depend on node.js npm install jshint2 -g
-"let jshint2_save=1
-"let jshint2_error=0
-"nmap <F9> :JSHint<CR>
-
 nmap <F9> :w<CR>:!/usr/bin/python2 %<CR>
-"nmap <F5> :w<CR>:!casperjs % --url='http://weibo.com/ztehn'<CR>
-"nmap <F6> :w<CR>:!phantomjs %<CR>
-"nmap <F9> :!javac -cp servlet-api-3.0-20090427.051741-5.jar;jetty-all-8.1.14.v20131031.jar;org.json.jar;jconn3.jar *.java<CR>
 " python 一键运行
 function CheckPythonSyntax()
     let mp = &makeprg
@@ -273,6 +273,7 @@ au filetype python map <F5>  :call CheckPythonSyntax()<cr>
 
 "syntastic
 let g:syntastic_python_checkers = ['pylint']
+let g:syntastic_javascript_checkers = ['jshint']
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -283,11 +284,12 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
 
+let g:syntastic_java_checkers = ['']
+
 "pytho 自动补全
 "if ! has("win32")
     "let g:pydiction_location = '/root/.vim/bundle/pydiction-master/complete-dict'
 "endif
-
 
 " Grep 插件
 if has("win32")
@@ -328,12 +330,14 @@ let g:ycm_filetype_blacklist = {
       \}
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_complete_in_comments = 1
+let g:ycm_complete_in_strings = 1
 " let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']
 " let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
 let g:ycm_log_level = 'info'
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_python_binary_path = '/usr/bin/python2'
 let g:ycm_key_invoke_completion = '<C-.>'
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " vim indent guide
 let g:indent_guides_enable_on_vim_startup = 1
@@ -344,9 +348,12 @@ set path+=**
 set wildmenu
 
 " easy motion
-nmap f <Plug>(easymotion-prefix)s
+if &runtimepath =~ 'vim-easymotion'
+    nmap f <Plug>(easymotion-prefix)s
+endif
 
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.idea/*,*/.DS_Store,*/vendor,*/dist,*/node_modules
 
-" ultisnips
+" ultisnips, to prevent clash with youcompleteme, change snippet trigger
 let g:UltiSnipsExpandTrigger='<c-j>'
+

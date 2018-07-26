@@ -91,9 +91,11 @@ set autochdir
 syntax on
 filetype plugin indent on
 
+autocmd FileType javascript.jsx setlocal shiftwidth=2 tabstop=2
+autocmd FileType less setlocal shiftwidth=2 tabstop=2
 "colo desert
 "colo desertEx
-colo wombat
+"colo wombat
 
 let g:SuperTabMappingForward = '<s-tab>'
 let g:SuperTabMappingBackward = '<tab>'
@@ -188,6 +190,9 @@ if has("win32")
   set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h10.5
   set guifontwide=新宋体:h11
 endif
+if has("gui_macvim")
+  set guifont=Noto\ Mono\ for\ Powerline:h14
+endif
 "set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h10.5
 "set guifontwide=新宋体:h11
 
@@ -250,7 +255,7 @@ autocmd FileType css vnoremap <buffer> <leader>ff :call RangeCSSBeautify()<cr>
 
 autocmd FileType yaml :set filetype=ansible
 
-nmap <F9> :w<CR>:!/usr/bin/python2 %<CR>
+nmap <F9> :w<CR>:!/usr/local/bin/python2 %<CR>
 " python 一键运行
 function CheckPythonSyntax()
     let mp = &makeprg
@@ -335,7 +340,7 @@ let g:ycm_complete_in_strings = 1
 " let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
 let g:ycm_log_level = 'info'
 let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_python_binary_path = '/usr/bin/python2'
+let g:ycm_python_binary_path = '/usr/local/bin/python2'
 let g:ycm_key_invoke_completion = '<C-.>'
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
@@ -357,3 +362,11 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.idea/*,*/.DS_Store,*/vendor,*/dist,
 " ultisnips, to prevent clash with youcompleteme, change snippet trigger
 let g:UltiSnipsExpandTrigger='<c-j>'
 
+colo molokai
+
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+
+autocmd BufRead scp://* :set bt=acwrite
+autocmd BufWritePost scp://* :set bt=acwrite
